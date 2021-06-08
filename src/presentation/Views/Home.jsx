@@ -1,34 +1,21 @@
-import React, {useEffect} from "react";
-import { SafeAreaView, Text,ScrollView } from "react-native";
-import styled from "styled-components";
+import React, { useEffect } from "react";
 
+//LAYOUT COMPONENTS
+import Container from "../../infrastructure/Components/Container";
 
 //COMPONENTS
-import TagsList from '../Components/Home/Tags'
-import Articles from '../Components/Home/Articles'
+import Text from "../../infrastructure/Components/Text";
+import TagsList from "../Components/Home/Tags";
+import Articles from "../Components/Home/Articles";
 
-
-const Container = styled.SafeAreaView`
-  flex : 1
-`
-const Header = styled.View`
-  flex : 1;
-
-`
-const HeaderTitle = styled.Text`
-  fontSize : 30px
-  fontWeight : bold
-  padding : 30px
-`
-
-export default function Home({ navigation }) {  
+export default function Home() {
   return (
-    <Container>
-      <Header>
-        <HeaderTitle>EXPLORE</HeaderTitle>
-      </Header>
+    <Container flex={1} safeArea>
+      <Container flex={1} styles={"padding : 30px"}>
+        <Text h1>EXPLORE</Text>
+      </Container>
       <TagsList/>
-      <Articles/>
+      <Articles />
     </Container>
   );
 }
