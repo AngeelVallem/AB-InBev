@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
-import { FlatList } from "react-native";
+import React, { useEffect, useState} from "react";
 import styled from "styled-components";
-import renderItem from "./Tag";
+import Tag from "./Tag";
 import getData from "../../../application/UseCases/getData";
+
+import {ReverseArray} from '../../../application/Filters/TagsFilter'
 
 const TagsList = styled.FlatList`
   flex: 1;
@@ -17,12 +18,13 @@ export default function Tags() {
       .catch((err) => err);
   }, []);
 
+
   return (
     <TagsList
       showsHorizontalScrollIndicator={false}
       horizontal
-      data={tags}
-      renderItem={renderItem}
+      data={ReverseArray(tags)}
+      renderItem={Tag}
     />
   );
 }
