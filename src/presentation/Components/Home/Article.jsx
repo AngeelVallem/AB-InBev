@@ -10,7 +10,7 @@ export default function Article({ item }) {
   return (
     <TouchableOpacity>
       <Container styles={"marginTop : 20px border: 1px solid black"}>
-      <Image src={item.author.image}/>
+      <Image size='50px' src={item.author.image}/>
       <Text h3>
         {item.title}
       </Text>

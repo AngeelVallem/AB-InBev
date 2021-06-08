@@ -9,7 +9,7 @@ export default function Text(props) {
     ${props.h4 && `fontSize : 15px fontWeight:300`}
     ${props.h5 && `fontSize : 10px fontWeight:300`}
     ${props.color && `color : ${props.color}`}
-     padding : 10px
+     padding : 10px 
     ${props.styles && props.styles}
   `;
   return <CustomText>{props.children}</CustomText>;

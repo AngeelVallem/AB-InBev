@@ -1,28 +1,28 @@
-import React from 'react'
+import React,{useEffect} from "react";
+
+//Layout components
+import Container from "../../infrastructure/Components/Container";
+
+import Image from "../../infrastructure/Components/Image";
+import Text from "../../infrastructure/Components/Text";
 
 
-import styled from 'styled-components'
+export default function Intro({navigation}) {
 
-const Title = styled.Text`
-    fontSize : 10px;
-    marginTop : 50px
-`
+useEffect(()=>{
+  setTimeout(()=>{
+    navigation.push('Home')
+  },3000)
+},[])
 
-const Container = styled.View`
-  flex : 1;
-  backgroundColor : #fff;
-  alignItems : center;
-  justifyContent : center;
-  padding : 5px;
-`
-
-
-export default function Intro  () {
-
-    return(
-      <Container>
-      <Title>Intro App</Title>
-      <Title>Made with ❤️‍🔥</Title>
+  return (
+    <Container flex={1} safeArea>
+      <Container flex={10} justifyCenter={true}>
+        <Image size="300px" src="https://i.postimg.cc/FRXDLQhT/08.png" />
       </Container>
-    )
-  }
+      <Container flex={1} justifyCenter={true} alignCenter={true}>
+        <Text h4>Made with 🦾</Text>
+      </Container>
+    </Container>
+  );
+}

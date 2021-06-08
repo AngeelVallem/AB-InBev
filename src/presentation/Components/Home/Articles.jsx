@@ -11,7 +11,7 @@ export default function ArticlesList() {
   useEffect(() => {
     getData("https://conduit.productionready.io/api/articles")
       .then((res) => setArticles(res.articles))
-      .catch((err) => console.log("soy el error", err));
+      .catch((err) => console.error("Articles error :", err));
   }, []);
 
   return (
