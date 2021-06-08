@@ -13,7 +13,7 @@ export default function Button(props) {
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
 
-    elevation: 6,
+    elevation: `${6}px`,
   };
 
   const CustomButton = styled.TouchableOpacity`

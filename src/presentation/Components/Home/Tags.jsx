@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from "react";
 import styled from "styled-components";
 import Tag from "./Tag";
+
 import getData from "../../../application/UseCases/getData";
 
 import {ReverseArray} from '../../../application/Filters/TagsFilter'
@@ -15,7 +16,7 @@ export default function Tags() {
   useEffect(() => {
     getData("https://conduit.productionready.io/api/tags")
       .then((res) => setTags(res.tags))
-      .catch((err) => err);
+      .catch((err) => console.log('Tags error :', err));
   }, []);
 
 

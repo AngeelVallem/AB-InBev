@@ -5,11 +5,13 @@ import styled from 'styled-components'
 export default function Image (props) {
     
     const CustomImage =  styled.Image`
-    width: 50px
-    height: 50px
+    width: ${props.size}
+    height: ${props.size}
     `
 
+    const img = props.src === '' ? 'https://tienda.elsardinero.com/wp-content/uploads/2017/09/user.png' : props.src
+
     return(
-        <CustomImage source={{uri : props.src}}/>
+        <CustomImage source={{uri : img}}/>
     )
 }
