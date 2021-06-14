@@ -1,31 +1,31 @@
-import React, { useEffect, useState} from "react";
+import React from "react";
 import styled from "styled-components";
+import Text from "../../../infrastructure/Components/Text";
 import Tag from "./Tag";
 
-import getData from "../../../application/UseCases/getData";
 
-import {ReverseArray} from '../../../application/Filters/TagsFilter'
+import tagsFilter from "../../../application/Filters/TagsFilter";
 
 const TagsList = styled.FlatList`
-  flex: 1;
+marginBottom : 40px
 `;
 
-export default function Tags() {
-  const [tags, setTags] = useState([]);
-
-  useEffect(() => {
-    getData("https://conduit.productionready.io/api/tags")
-      .then((res) => setTags(res.tags))
-      .catch((err) => console.log('Tags error :', err));
-  }, []);
+export default function Tags({tags}) {
 
 
   return (
-    <TagsList
+    <>
+    <Text h4 style={{marginTop : 20}}>T A G S</Text>
+        <TagsList
       showsHorizontalScrollIndicator={false}
       horizontal
-      data={ReverseArray(tags)}
+      keyExtractor={(item) => item}
+      data={tagsFilter(tags)}
       renderItem={Tag}
+      style={{
+        
+      }}
     />
+    </>
   );
 }

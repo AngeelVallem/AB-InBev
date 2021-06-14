@@ -6,8 +6,8 @@ import { colors } from "../../../application/Common/Globals";
 const TagItem = styled.View`
     padding : 10px
     margin : 0 5px
-    backgroundColor : ${colors.secondary}
-    borderRadius : 10px
+    backgroundColor : ${colors.bannersColor}
+    borderRadius : 5px
 `;
 
 export default function Tag({ item }) {

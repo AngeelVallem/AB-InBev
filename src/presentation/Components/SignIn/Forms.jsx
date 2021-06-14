@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, {useState} from "react";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import styled from "styled-components";
-import * as SecureStore from "expo-secure-store";
 
-import { login, currentUser } from "../../../infrastructure/Api/Login";
+
+import { login } from "../../../infrastructure/Api/Services";
 
 //Custom Components
 import Text from "../../../infrastructure/Components/Text";
@@ -18,7 +18,7 @@ backgroundColor : #F5F5F5
 
 //Component for Login
 
-export function SignInForm() {
+export function SignInForm({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -40,13 +40,29 @@ export function SignInForm() {
       <Button
         text={"Sign In"}
         onPress={() => {
-          login("https://conduit.productionready.io/api/users/login", {
-            user: { email, password },
-          });
+          if (email === "" || password === "") {
+            return alert("Llene los campos vacios");
+          }
+          login(
+            "https://conduit.productionready.io/api/users/login",
+            {
+              user: { email, password },
+            },
+            navigation,
+            "Home",
+            "successful login"
+          );
         }}
       />
-      <Text h5>
-        You dont have an account? <Text h4>Register</Text>
+
+      <Text
+        h4
+        touchable
+        onPress={() => {
+          navigation.navigate("Register");
+        }}
+      >
+        You dont have an account? Register
       </Text>
     </KeyboardAvoidingView>
   );
@@ -54,7 +70,7 @@ export function SignInForm() {
 
 //Component for register
 
-export function SignUpForm() {
+export function SignUpForm({ navigation }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -81,13 +97,29 @@ export function SignUpForm() {
         text={"Sign In"}
         shadow
         onPress={() => {
-          console.log({ username, email, password });
-          setEmail("");
-          setPassword("");
+          if (email === "" || password === "") {
+            return alert("Llene los campos vacios");
+          }
+
+          login(
+            "https://conduit.productionready.io/api/users",
+            {
+              user: { username, email, password },},
+            navigation,
+            "Home",
+            "successful Register"
+          );
+          
         }}
       />
-      <Text h5>
-        You dont have an account? <Text h4>Register</Text>
+      <Text
+        h4
+        touchable
+        onPress={() => {
+          navigation.goBack();
+        }}
+      >
+        You already have an account? Login
       </Text>
     </>
   );
