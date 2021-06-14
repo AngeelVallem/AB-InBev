@@ -11,28 +11,29 @@ import { SignInForm } from "../Components/SignIn/Forms";
 //Gobals
 import { colors } from "../../application/Common/Globals";
 
-export default function SignIn() {
+export default function SignIn({ navigation }) {
   return (
     <Container
       flex={1}
-      color={colors.primary}
+      color={colors.bannersColor}
       touchable
       onPress={Keyboard.dismiss}
     >
+
       <Container flex={1}>
-        <Container flex={2} safeArea justifyCenter={true} alignCenter={true}>
-          <Image size="200px" src="https://i.ibb.co/jJMQVvW/02.png" />
+        <Container flex={2} safeArea justifyCenter={true} alignCenter={true} color={colors.bannersColor}>
+          <Image size="200px" source={{uri : 'https://i.ibb.co/jJMQVvW/02.png'}} />
         </Container>
         <Container
           flex={3}
           color={"#fff"}
           justifyCenter={true}
-          styles="borderTopLeftRadius: 50px borderTopRightRadius: 50px"
+          style={{borderTopLeftRadius: 50, borderTopRightRadius: 50}}
         >
           <Text h2 styles="textAlign:center">
             Sign In
           </Text>
-          <SignInForm />
+          <SignInForm  navigation={navigation}/>
         </Container>
       </Container>
     </Container>

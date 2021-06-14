@@ -1,17 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
+const CustomImage = styled.Image`
+  ${(props) =>
+    !props.size
+      ? "width : 50px height : 50px"
+      : `width : ${props.size}  height : ${props.size}`}
+  ${props => props.circle && "borderRadius: 200px"}
+`;
 
-export default function Image (props) {
-    
-    const CustomImage =  styled.Image`
-    width: ${props.size}
-    height: ${props.size}
-    `
-
-    const img = props.src === '' ? 'https://tienda.elsardinero.com/wp-content/uploads/2017/09/user.png' : props.src
-
-    return(
-        <CustomImage source={{uri : img}}/>
-    )
+export default function Image(props) {
+  return <CustomImage {...props}/>;
 }
