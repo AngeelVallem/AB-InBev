@@ -34,14 +34,16 @@ export default function EditProfile({ route, navigation }) {
 
   return (
     <Container flex={1} safeArea align='center' justify='center'>
-      <Text>Username</Text>
+      <Container scroll >
+      <Text padding='0px'>Username</Text>
       <Input value={username} onChangeText={setUsername} w />
-      <Text>Email</Text>
+      <Text padding='0px'>Email</Text>
       <Input value={email} onChangeText={setEmail} w />
-      <Text>Description</Text>
+      <Text padding='0px'>Description</Text>
       <Input value={bio} onChangeText={setBio} w />
-      <Text>Image url</Text>
+      <Text padding='0px'>Image url</Text>
       <Input value={image} onChangeText={setImage} w />
+      </Container>
       <Button text="Save" onPress={handleSubmit}/>
     </Container>
   );

@@ -29,7 +29,7 @@ export default function Home({ navigation }) {
         "https://conduit.productionready.io/api/tags"
       );
       const { articles } = await getData(
-        `https://conduit.productionready.io/api/articles`
+        `https://conduit.productionready.io/api/articles?limit=30`
       );
       setArticles(articles);
       setTags(tags);
@@ -72,7 +72,7 @@ export default function Home({ navigation }) {
 
   return (
     <Container flex={1} safeArea>
-      <Container scroll flex={1} showsVerticalScrollIndicator={false}>
+      <Container scroll flex={1} showsVerticalScrollIndicator={false} nScrollToToP={() => alert('FETCH')}>
         <Container flex={1} style={{ marginTop: 30 }}>
           <Text
             h2
