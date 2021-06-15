@@ -24,5 +24,20 @@
  **Clean Architecture** 
  
  > Application 
+  **Application directory contains the State Management and Common utilities functions and constants**
+  
+  > Infrastructure
+ **Infrastructure contains API (Services) Files, API Handlers, Common Components like Loader, Common TextField, Buttons**
+ 
+ >Presentation
+ **Presentation contains Component/Container. Component return design of your component**
+ 
+ 
+ 
+## Instalation
 
+1. Fork or clone this repository
+2. ` cd  repository `
+3. ` npm install or yarn ` **Aditionally you need to install expo cli**
+4. ` yarn start` 
 
