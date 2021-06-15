@@ -22,6 +22,7 @@ export default function Home({ navigation }) {
 
   const isFocused = useIsFocused();
 
+
   useEffect(() => {
     async function getTags() {
       try {
@@ -38,7 +39,9 @@ export default function Home({ navigation }) {
       }
     }
     getTags();
-  }, []);
+  },[]);
+
+
 
   useEffect(() => {
     async function hasToken() {

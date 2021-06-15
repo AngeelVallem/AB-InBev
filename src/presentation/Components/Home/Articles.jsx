@@ -14,11 +14,13 @@ export default function ArticlesList({ article, index, navigation, user }) {
   const day = getDate.day(article.createdAt);
   const month = getDate.month(article.createdAt);
 
+
+
   return (
     <Container
       touchable
       onPress={() =>
-        navigation.navigate("ArticleDetails", { id: article.slug, user })
+        navigation.navigate("ArticleDetails", { id: article.slug, user})
       }
       shadow
     >
@@ -31,7 +33,7 @@ export default function ArticlesList({ article, index, navigation, user }) {
             <Container direction="row">
               <Image
                 size="30px"
-                source={{ uri: article.author.image }}
+                source={{ uri: !article.author.image ? 'https://previews.123rf.com/images/kritchanut/kritchanut1308/kritchanut130800063/21738698-hombre-foto-de-perfil-de-la-silueta-con-el-signo-de-interrogaci%C3%B3n-en-la-cabeza-vector.jpg' : article.author.image }}
                 circle
               />
               <Text h4>

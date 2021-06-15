@@ -10,6 +10,7 @@ import Settings from "../../presentation/Views/Settings"
 import EditProfile from "../../presentation/Views/EditProfile"
 import CreateArticle from "../../presentation/Views/CreateArticle";
 import ArticleStack from  "../Navigation/Stacks/ArticleStack"
+import EditArticle from "../../presentation/Views/EditArticle";
 
 const Stack = createStackNavigator();
 const stackOptions = {
@@ -39,6 +40,7 @@ export default function MainNavigation() {
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="ArticleDetails" component={ArticleStack} />
          <Stack.Screen name="CreateArticle" component={CreateArticle} />
+         <Stack.Screen name="EditArticle" component={EditArticle} />
       </Stack.Navigator>
       <Toast ref={(ref) => Toast.setRef(ref)} />
     </NavigationContainer>

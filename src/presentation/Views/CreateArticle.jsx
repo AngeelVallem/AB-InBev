@@ -68,6 +68,7 @@ export default function CreateArticle({ navigation }) {
         }}
       >
         <Input
+        textArea
           underlineColorAndroid="transparent"
           placeholder="Type something"
           placeholderTextColor="grey"

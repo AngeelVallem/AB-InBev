@@ -205,8 +205,17 @@ export async function putMethod(url, data) {
         Authorization: `Token ${await SecureStore.getItemAsync("token")}`,
       },
     });
+    Toast.show({
+      type: "success",
+      text1: "Success",
+    });
   } catch (err) {
-    console.log(err);
+    Toast.show({
+      type: "error",
+      text1: "ERROR",
+      text2: err.message,
+      position: "bottom",
+    });
   }
 }
 
@@ -215,15 +224,43 @@ export async function getById(url) {
   return res.data;
 }
 
-export async function deleteById(url, id) {
-  axios.delete(`${url}/${id}`, {
+export async function deleteArticle(id) {
+
+  try{
+  axios.delete(`https://conduit.productionready.io/api/articles/${id}`, {
     headers: {
       Authorization: `Token ${await SecureStore.getItemAsync("token")}`,
     },
   });
+  Toast.show({
+    type: "success",
+    text1: "Deleted Successfully",
+  });
+  }
+  catch(err){
+    Toast.show({
+      type: "error",
+      text1: "ERROR",
+      text2: err.message,
+      position: "bottom",
+    });
+  }
 }
 
 
+export async function getArticlesWithParams (params) {
+  try {
+    const res = await axios.get(`https://conduit.productionready.io/api/articles${params}`);
+
+    return res.data;
+  } catch (err) {
+    Toast.show({
+      type: "error",
+      text1: "ERROR",
+      text2: err.message,
+    });
+  }
+}
 
 
   export async function getByIdAuth(url) {

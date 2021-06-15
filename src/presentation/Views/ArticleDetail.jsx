@@ -21,6 +21,7 @@ import {
   unFollowUser,
   favoriteArticle,
   unFavoriteArticle,
+  getById,
 } from "../../infrastructure/Api/Services";
 
 export default function ArticuleDetails({ route, navigation }) {
@@ -30,10 +31,16 @@ export default function ArticuleDetails({ route, navigation }) {
   const isFocus = useIsFocused();
 
   async function getArticle() {
-    const { article } = await getByIdAuth(
+    if (user) {
+      const { article } = await getByIdAuth(
+        `https://conduit.productionready.io/api/articles/${id}`
+      );
+      return setArticle(article);
+    }
+    const { article } = await getById(
       `https://conduit.productionready.io/api/articles/${id}`
     );
-    setArticle(article);
+    return setArticle(article);
   }
 
   useEffect(() => {
@@ -56,7 +63,7 @@ export default function ArticuleDetails({ route, navigation }) {
         <Container direction="row" align="center">
           <Image size="50px" source={{ uri: article.author.image }} circle />
           <Text h3>{article.author.username}</Text>
-          {user.username === article.author.username ? (
+          {user && user.username === article.author.username ? (
             <></>
           ) : (
             <FollowButton

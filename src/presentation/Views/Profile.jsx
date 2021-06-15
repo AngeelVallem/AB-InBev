@@ -1,68 +1,61 @@
 import React, { useState, useEffect } from "react";
-import * as SecureStore from "expo-secure-store";
-import {useIsFocused} from '@react-navigation/native'
 
-
-import getCurrentUser from "../../infrastructure/Api/getCurrentUser";
-import Articles from "../../presentation/Components/Home/Articles";
+import { useIsFocused } from "@react-navigation/native";
+import validateToken from "../../application/UseCases/ValidateToken";
+import {
+  getCurrentUser,
+  getArticlesWithParams,
+} from "../../infrastructure/Api/Services";
+import { colors, styles } from "../../application/Common/Globals";
 
 import Container from "../../infrastructure/Components/Container";
 import Button from "../../infrastructure/Components/Button";
 import Image from "../../infrastructure/Components/Image";
 import Text from "../../infrastructure/Components/Text";
-
-import { colors } from "../../application/Common/Globals";
+import Spinner from "../../infrastructure/Components/Spinner";
+import FavoriteArticlesCard from "../Components/Profile/FavoriteArticlesCard";
 
 export default function Profile({ navigation }) {
   const [hasToken, setHasToken] = useState();
-  const [user, setUser] = useState({});
+  const [favoriteArticles, setFavoriteArticles] = useState(null);
+  const [user, setUser] = useState(null);
 
   const isFocused = useIsFocused();
 
-  useEffect(() => {
-
-    function validToken() {
-      try {
-        SecureStore.getItemAsync("token").then((token) => {
-          if (!token) {
-            return console.log("No");
-          }
-          setHasToken(true);
-          getCurrentUser().then((res) => setUser(res));
-        });
-      } catch (err) {
-        console.log(err);
-      }
+  async function hasAToken() {
+    const token = await validateToken();
+    if (token) {
+      setHasToken(true);
+      const res = await getCurrentUser();
+      return setUser(res);
     }
-      console.log("TODO : CLEAN PROFILE COMPONENT");
-    validToken();
-  },[]);
+    setHasToken(false);
+  }
 
+  //valid token when the screen is mounted and fetch user
   useEffect(() => {
-   async function validToken() {
-      try {
-        const token = await SecureStore.getItemAsync("token")
-        if(token){
-            setHasToken(true)
-          const data = await getCurrentUser()
-         return setUser(data)
-        }
+    hasAToken();
+  }, []);
 
-        setHasToken(false)
-
-      } catch (err) {
-        console.log(err);
+  //fetch favorite articles when user isnt a falsy
+  useEffect(() => {
+    async function getFavoriteArticles() {
+      if (user) {
+        const { articles } = await getArticlesWithParams(`?${user.username}`);
+        return setFavoriteArticles(articles);
       }
+      setHasToken(false);
     }
+    getFavoriteArticles();
+  }, [user]);
 
-    console.log(isFocused);
-    validToken();
+  //valid token when the screen is on focus and fetch user
+  useEffect(() => {
+    hasAToken();
   }, [isFocused]);
 
-
-
-
-  if (!hasToken) {
+  //Render when hasToken is a falsy
+  if (!user) {
     return (
       <Container flex={1} safeArea justifyCenter={true} alignCenter={true}>
         <Button
@@ -74,55 +67,50 @@ export default function Profile({ navigation }) {
       </Container>
     );
   }
+
   return (
     <Container flex={1} safeArea color={colors.bannersColor}>
-      <Container align='flex-end' color={colors.bannersColor}>
-        <Text h2 touchable onPress={() => {
-          navigation.navigate('Settings')
-        }}>
+      <Container align="flex-end" color={colors.bannersColor}>
+        <Text
+          h2
+          touchable
+          onPress={() => {
+            navigation.navigate("Settings");
+          }}
+        >
           ...
         </Text>
       </Container>
-      <Container
-        flex={1}
-        styles={`
-      flexDirection : row
-      justifyContent : space-around
-      paddingTop : 20px
-      `}
-    
-      >
-        <Container flex={1} alignCenter={true}  color={colors.bannersColor}>
-          <Image
-            size="100px"
-            source={{uri : user.image}}
-            circle
-          />
-                    <Text
-            touchable
-            onPress={() => {
-              navigation.navigate('EditProfile')
-            }}
-            styles={`
-        border : 1px solid #000
-        margin : 10px auto
-      `}
-          >
-            Edit profile
+      <Container flex={1} align="center" color={colors.bannersColor}>
+        <Container align="center" shadow color={colors.bannersColor}>
+          <Text h3>{user.username}</Text>
+          <Text h4>{user.bio}</Text>
+        </Container>
+        <Image size="80px" source={{ uri: user.image }} circle />
+        <Text onPress={() => navigation.navigate("EditProfile", user)}>
+          Edit profile
+        </Text>
+      </Container>
+      <Container flex={1}>
+        <Container style={styles.header}>
+          <Text center h3>
+            Favorites Articles ⭐️
           </Text>
         </Container>
-        <Container flex={1}>
-          <Text h3 styles={`textAlign:center`}>
-            {user.username}
-          </Text>
-          <Text h4 styles={`textAlign:center`}>
-            {user.bio}
-          </Text>
-
+        <Container scroll>
+          {favoriteArticles ? (
+            favoriteArticles.map((article, i) => (
+              <FavoriteArticlesCard
+                article={article}
+                index={i}
+                navigation={navigation}
+              />
+            ))
+          ) : (
+            <Spinner />
+          )}
         </Container>
       </Container>
-
-
     </Container>
   );
 }
