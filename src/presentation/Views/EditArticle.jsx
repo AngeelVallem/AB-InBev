@@ -2,8 +2,6 @@ import React, { useState } from "react";
 
 import MaterialIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-import { styles } from "../../application/Common/Globals";
-
 import { putMethod } from "../../infrastructure/Api/Services";
 
 import Container from "../../infrastructure/Components/Container";
@@ -33,7 +31,6 @@ export default function EditArticle({ route, navigation }) {
 
   return (
     <Container flex={1} safeArea>
-      <Container style={(styles.header, { marginVertical: 30 })}>
         <MaterialIcons
           name="keyboard-backspace"
           size={20}
@@ -41,26 +38,15 @@ export default function EditArticle({ route, navigation }) {
           style={{ marginLeft: 30 }}
           onPress={() => navigation.goBack()}
         />
-        <Text center h3>
-          Edit Profile 🖋
-        </Text>
-      </Container>
-      <Container>
-        <Text>Title</Text>
-        <Input onChangeText={setTitletoUpdate} value={titletoUpdate} />
-      </Container>
-      <Container>
-        <Text>Description</Text>
-        <Input
-          onChangeText={setDescriptionToUpdate}
-          value={descriptionToUpdate}
-        />
-      </Container>
-      <Container>
-        <Text>Body</Text>
-        <Input onChangeText={setBodyToUpdate} value={bodyToUpdate} />
-      </Container>
-      <Button text="Save Changes" onPress={handleSubmit} />
+      <Container flex={1} safeArea align='center' justify='center'>
+      <Text>Article Title</Text>
+      <Input value={titletoUpdate} onChangeText={setTitletoUpdate} w />
+      <Text>Article Descrition</Text>
+      <Input value={descriptionToUpdate} onChangeText={setDescriptionToUpdate} w />
+      <Text>Article Body</Text>
+      <Input value={bodyToUpdate} onChangeText={setBodyToUpdate} w />
+      <Button text="Save" onPress={handleSubmit}/>
+    </Container>
     </Container>
   );
 }

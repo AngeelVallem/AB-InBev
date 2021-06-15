@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { FlatList } from "react-native-gesture-handler";
 import Text from "../../../infrastructure/Components/Text";
 import Tag from "./Tag";
 
@@ -10,8 +11,9 @@ const TagsList = styled.FlatList`
 marginBottom : 40px
 `;
 
-export default function Tags({tags}) {
+export default function Tags({tags,setFilter}) {
 
+  
 
   return (
     <>
@@ -21,10 +23,8 @@ export default function Tags({tags}) {
       horizontal
       keyExtractor={(item) => item}
       data={tagsFilter(tags)}
-      renderItem={Tag}
-      style={{
-        
-      }}
+      renderItem={({item}) => <Tag item={item} setFilter={setFilter}/>}
+
     />
     </>
   );

@@ -27,6 +27,7 @@ import {
 export default function ArticuleDetails({ route, navigation }) {
   const [article, setArticle] = useState(null);
   const [actionsVisible, setActionsVisible] = useState(false);
+
   const { id, user } = route.params;
   const isFocus = useIsFocused();
 
@@ -72,6 +73,8 @@ export default function ArticuleDetails({ route, navigation }) {
               setFollow={followUser}
               setUnFollow={unFollowUser}
               refresh={getArticle}
+              currentUser={user}
+              navigation={navigation}
             />
           )}
         </Container>
@@ -92,29 +95,8 @@ export default function ArticuleDetails({ route, navigation }) {
         setFavorite={favoriteArticle}
         setUnFavorite={unFavoriteArticle}
         refresh={getArticle}
+        currentUser={user}
       />
     </Container>
   );
 }
-
-// EDIT PROFILE LOGIC
-
-// setTitle(article.title);
-// setDescription(article.description);
-// setBody(article.body);
-
-// <Container safeArea justifyCenter={true} alignCenter={true}>
-//   <CustomInput value={title} onChangeText={setTitle} />
-//   <CustomInput value={description} onChangeText={setDescription} />
-//   <CustomInput value={body} onChangeText={setBody} />
-//   <Button
-//     text={"Save"}
-//     onPress={() => {
-//       putMethod(
-//         `https://conduit.productionready.io/api/articles/${route.params}`,
-//         { article: { title, description, body } }
-//       );
-// navigation.push('Home')
-//     }}
-//   />
-// </Container>

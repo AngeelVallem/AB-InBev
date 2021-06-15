@@ -8,10 +8,22 @@ export default function ArticleEditable({
   index,
   navigation,
   onDelete,
+  user,
   refresh,
 }) {
+
+
   return (
-    <Container flex={2} key={index} shadow direction="row">
+    <Container
+      flex={2}
+      key={index}
+      shadow
+      direction="row"
+      touchable
+      onPress={() =>
+        navigation.push('ArticleDetails', {id : article.slug, user})
+      }
+    >
       <Container flex={1}>
         <Text h2>{article.title}</Text>
         <Text h4> Descripton: {article.description}</Text>
@@ -19,7 +31,10 @@ export default function ArticleEditable({
         <Text h5>Last updated : {article.updatedAt}</Text>
       </Container>
       <Container>
-        <Button text="Edit" onPress={() => navigation.push("EditArticle",article)} />
+        <Button
+          text="Edit"
+          onPress={() => navigation.push("EditArticle", article)}
+        />
         <Button
           text="Delete"
           onPress={() => {
@@ -31,3 +46,4 @@ export default function ArticleEditable({
     </Container>
   );
 }
+

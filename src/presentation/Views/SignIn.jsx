@@ -6,10 +6,10 @@ import Container from "../../infrastructure/Components/Container";
 import Text from "../../infrastructure/Components/Text";
 import Image from "../../infrastructure/Components/Image";
 
-import { SignInForm } from "../Components/SignIn/Forms";
+import Form from "../Components/SignIn/Form";
 
 //Gobals
-import { colors } from "../../application/Common/Globals";
+import { colors, styles } from "../../application/Common/Globals";
 
 export default function SignIn({ navigation }) {
   return (
@@ -21,19 +21,17 @@ export default function SignIn({ navigation }) {
     >
 
       <Container flex={1}>
-        <Container flex={2} safeArea justifyCenter={true} alignCenter={true} color={colors.bannersColor}>
-          <Image size="200px" source={{uri : 'https://i.ibb.co/jJMQVvW/02.png'}} />
+        <Container flex={1} safeArea justifyCenter={true} alignCenter={true} color={colors.bannersColor}>
+          <Image size="100px" source={{uri : 'https://i.ibb.co/jJMQVvW/02.png'}} />
+          <Text h3>Sign In</Text>
         </Container>
         <Container
           flex={3}
           color={"#fff"}
-          justifyCenter={true}
-          style={{borderTopLeftRadius: 50, borderTopRightRadius: 50}}
+          style={styles.form}
         >
-          <Text h2 styles="textAlign:center">
-            Sign In
-          </Text>
-          <SignInForm  navigation={navigation}/>
+
+          <Form  navigation={navigation}/>
         </Container>
       </Container>
     </Container>

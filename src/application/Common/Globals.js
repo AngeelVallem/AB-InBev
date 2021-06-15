@@ -26,6 +26,13 @@ export const styles = {
          paddingVertical : 10px
     `,
 
+    inputMarkDown : { 
+    borderColor: colors.secondary,
+    borderWidth: 1,
+    padding: 5,
+    height: `${70}%`
+    },
+
   //stylsheet styles
   addArticleButton: {
     marginLeft: 5,
@@ -39,5 +46,9 @@ export const styles = {
   header : {
     marginTop : 20,
     paddingHorizontal : 20  
+  },
+  
+  form : {
+    marginTop : 100
   }
 };

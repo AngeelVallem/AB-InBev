@@ -17,6 +17,7 @@ export default function EditProfile({ route, navigation }) {
   const handleSubmit = () => {
     putMethod("https://conduit.productionready.io/api/user", {
       user: {
+        username,
         email,
         bio,
         image,
@@ -32,7 +33,7 @@ export default function EditProfile({ route, navigation }) {
   };
 
   return (
-    <Container flex={1} safeArea justifyCenter={true} alignCenter={true}>
+    <Container flex={1} safeArea align='center' justify='center'>
       <Text>Username</Text>
       <Input value={username} onChangeText={setUsername} w />
       <Text>Email</Text>

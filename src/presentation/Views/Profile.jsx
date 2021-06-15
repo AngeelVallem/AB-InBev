@@ -41,7 +41,9 @@ export default function Profile({ navigation }) {
   useEffect(() => {
     async function getFavoriteArticles() {
       if (user) {
-        const { articles } = await getArticlesWithParams(`?${user.username}`);
+        const { articles } = await getArticlesWithParams(
+          `?favorited=${user.username}`
+        );
         return setFavoriteArticles(articles);
       }
       setHasToken(false);
@@ -49,13 +51,17 @@ export default function Profile({ navigation }) {
     getFavoriteArticles();
   }, [user]);
 
+  console.log(hasToken);
+
   //valid token when the screen is on focus and fetch user
   useEffect(() => {
-    hasAToken();
+    if (isFocused) {
+      hasAToken();
+    }
   }, [isFocused]);
 
   //Render when hasToken is a falsy
-  if (!user) {
+  if (!hasToken) {
     return (
       <Container flex={1} safeArea justifyCenter={true} alignCenter={true}>
         <Button
@@ -66,6 +72,10 @@ export default function Profile({ navigation }) {
         />
       </Container>
     );
+  }
+
+  if (!user || !favoriteArticles) {
+    return <Spinner />;
   }
 
   return (
@@ -98,11 +108,15 @@ export default function Profile({ navigation }) {
           </Text>
         </Container>
         <Container scroll>
-          {favoriteArticles ? (
+          {favoriteArticles.length === 0 ? (
+            <Text center>You don't have favorite articles</Text>
+          ) : favoriteArticles ? (
             favoriteArticles.map((article, i) => (
               <FavoriteArticlesCard
+                key={i}
                 article={article}
                 index={i}
+                user={user}
                 navigation={navigation}
               />
             ))

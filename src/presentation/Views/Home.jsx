@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useIsFocused } from "@react-navigation/core";
 
 //USE CASES
@@ -19,29 +19,27 @@ export default function Home({ navigation }) {
   const [user, setUser] = useState(null);
   const [articles, setArticles] = useState([]);
   const [tags, setTags] = useState([]);
+  const [filter, setFilter] = useState(null);
 
   const isFocused = useIsFocused();
 
-
-  useEffect(() => {
-    async function getTags() {
-      try {
-        const { tags } = await getData(
-          "https://conduit.productionready.io/api/tags"
-        );
-        const { articles } = await getData(
-          "https://conduit.productionready.io/api/articles"
-        );
-        setArticles(articles);
-        setTags(tags);
-      } catch (err) {
-        alert("error");
-      }
+  async function getTags() {
+    try {
+      const { tags } = await getData(
+        "https://conduit.productionready.io/api/tags"
+      );
+      const { articles } = await getData(
+        `https://conduit.productionready.io/api/articles`
+      );
+      setArticles(articles);
+      setTags(tags);
+    } catch (err) {
+      alert("error");
     }
+  }
+  useEffect(() => {
     getTags();
-  },[]);
-
-
+  }, []);
 
   useEffect(() => {
     async function hasToken() {
@@ -55,22 +53,44 @@ export default function Home({ navigation }) {
     }
     if (isFocused) {
       hasToken();
+      getTags();
+      setFilter(null);
     }
   }, [isFocused]);
+
+  useEffect(() => {
+    async function getArticlesFiltered() {
+      if (filter) {
+        const { articles } = await getData(
+          `https://conduit.productionready.io/api/articles${`?tag=${filter}`}`
+        );
+        setArticles(articles);
+      }
+    }
+    getArticlesFiltered();
+  }, [filter]);
 
   return (
     <Container flex={1} safeArea>
       <Container scroll flex={1} showsVerticalScrollIndicator={false}>
         <Container flex={1} style={{ marginTop: 30 }}>
-          <Text h1>EXPLORE</Text>
+          <Text
+            h2
+            touchable
+            onPress={() => {
+              getTags();
+              setFilter(null);
+            }}
+          >
+            EXPLORE <Text h3>{!filter ? "Global" : filter}</Text>
+          </Text>
           <CreateArticle
             navigation={navigation}
             hasToken={hasAToken}
             user={!user ? {} : user}
           />
         </Container>
-        <TagsList tags={tags} />
-        {/* articicles list  my alternative for FlatList */}
+        <TagsList tags={tags} setFilter={setFilter} />
         {articles.map((article, i) => (
           <Articles
             key={i}

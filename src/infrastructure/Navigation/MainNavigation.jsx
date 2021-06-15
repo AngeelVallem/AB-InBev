@@ -20,7 +20,7 @@ const stackOptions = {
 
 
 export default function MainNavigation() {
-
+  
 
   const [isLoaded, setIsLoaded] = useState(null)
 

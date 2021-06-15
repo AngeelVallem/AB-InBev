@@ -10,9 +10,12 @@ const TagItem = styled.View`
     borderRadius : 5px
 `;
 
-export default function Tag({ item }) {
+export default function Tag({ item,setFilter }) {
+
+
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => setFilter(item)}>
       <TagItem>
         <Text>{item}</Text>
       </TagItem>

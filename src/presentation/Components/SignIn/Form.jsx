@@ -16,9 +16,7 @@ padding : 25px
 backgroundColor : #F5F5F5
 `;
 
-//Component for Login
-
-export function SignInForm({ navigation }) {
+export default function Form({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -41,7 +39,7 @@ export function SignInForm({ navigation }) {
         text={"Sign In"}
         onPress={() => {
           if (email === "" || password === "") {
-            return alert("Llene los campos vacios");
+            return false
           }
           login(
             "https://conduit.productionready.io/api/users/login",
@@ -65,62 +63,5 @@ export function SignInForm({ navigation }) {
         You dont have an account? Register
       </Text>
     </KeyboardAvoidingView>
-  );
-}
-
-//Component for register
-
-export function SignUpForm({ navigation }) {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  return (
-    <>
-      <CustomInput
-        placeholder={"Username"}
-        value={username}
-        onChangeText={setUsername}
-      />
-      <CustomInput
-        placeholder={"Email"}
-        value={email}
-        onChangeText={setEmail}
-      />
-      <CustomInput
-        placeholder={"password"}
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={true}
-      />
-      <Button
-        text={"Sign In"}
-        shadow
-        onPress={() => {
-          if (email === "" || password === "") {
-            return alert("Llene los campos vacios");
-          }
-
-          login(
-            "https://conduit.productionready.io/api/users",
-            {
-              user: { username, email, password },},
-            navigation,
-            "Home",
-            "successful Register"
-          );
-          
-        }}
-      />
-      <Text
-        h4
-        touchable
-        onPress={() => {
-          navigation.goBack();
-        }}
-      >
-        You already have an account? Login
-      </Text>
-    </>
   );
 }

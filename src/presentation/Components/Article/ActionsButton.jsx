@@ -11,6 +11,7 @@ export default function ActionsButon({
   setFavorite,
   setUnFavorite,
   refresh,
+  currentUser
 }) {
   return (
     <Provider>
@@ -27,16 +28,27 @@ export default function ActionsButon({
               icon: isFavorite ? "star" : "star-outline",
               label: isFavorite ? "Unfavorite" : "Add Favorite",
               color: "#F3CB60",
-              onPress: async () =>
-                !isFavorite
-                  ? (await setFavorite(id), refresh())
-                  : (await setUnFavorite(id), refresh()),
+              onPress: async () =>{
+                if(!currentUser){
+                 return  navigation.push('Forms')
+                }
+
+                if(!isFavorite){
+                  return await setFavorite(id), refresh()
+                }
+                return await setUnFavorite(id), refresh()
+              }
             },
             {
               icon: "comment",
               label: "Comments",
               color: "#000",
-              onPress: () => navigation.push("Comments", id),
+              onPress: () => {
+                if(!currentUser){
+                  return navigation.push('Forms')
+                }
+                navigation.push("Comments", id)
+              },
             },
           ]}
           onStateChange={() => onChangeOpen(!isOpen)}

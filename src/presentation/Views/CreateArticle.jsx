@@ -1,74 +1,58 @@
 import React, { useState } from "react";
-
+import { Keyboard } from 'react-native';
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { postMethod } from "../../infrastructure/Api/Services";
 
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { View } from "react-native";
+import myMarkDown from "../../application/UseCases/myMarkDown";
 
 import Container from "../../infrastructure/Components/Container";
 import Input from "../../infrastructure/Components/Input";
 import Text from "../../infrastructure/Components/Text";
-
-function myMarkDown(str, navigation) {
-  const types = str.split(",");
-  let article = {};
-  types.forEach((type) => {
-    const word = type.trim();
-    if (word.match(/#[^“]*#/g)) {
-      const title = word.replace(/[#]/g, "");
-      article = { title };
-    } else if (word.match(/:[^“]*:/g)) {
-      const description = word.replace(/[:]/g, "");
-      article = { ...article, description };
-    } else if (word.match(/<[^“]*>/g)) {
-      const body = word.replace(/[<>]/g, "");
-      article = { ...article, body };
-    }
-
-    article = { ...article, tagList: ["reactjs", "angularjs", "dragons"] };
-  });
-  
-    postMethod('https://conduit.productionready.io/api/articles',article,navigation,'Home', 'Article posted')
-}
+import Modal from "../Components/CreateArticle/Modal";
+import { colors, styles } from "../../application/Common/Globals";
 
 export default function CreateArticle({ navigation }) {
   const [text, SetText] = useState("");
+  const [visible, setVisible] = useState(false);
+
+  const handleSubmit = () => {
+    postMethod(
+      "https://conduit.productionready.io/api/articles",
+      myMarkDown(text),
+      navigation,
+      "Home",
+      "Article posted"
+    );
+  };
 
   return (
-    <Container safeArea color={"gray"} flex={1}>
+    <Container safeArea color={colors.bannersColor} flex={1}>
       <Container
         flex={1}
-        alignCenter={true}
-        style={{
-	flexDirection: 'row',
-	justifyContent : 'space-around'
-        }}
+        style={styles.header}
+        align="center"
+        direction="row"
+        justify="space-around"
       >
         <Text h3 touchable onPress={() => navigation.goBack()}>
           Close
         </Text>
-        <MaterialCommunityIcons name="information" color={"#000"} size={30} />
-        <Text
-          h3
-          touchable
+        <MaterialCommunityIcons
+          name="information"
+          color={"#000"}
+          size={30}
           onPress={() => {
-            myMarkDown(text, navigation);
+            Keyboard.dismiss()
+            setVisible(true);
           }}
-        >
+        />
+        <Text h3 touchable onPress={handleSubmit}>
           Send
         </Text>
       </Container>
-      <View
-        style={{
-          flex: 10,
-          backgroundColor: "#fff",
-          borderWidth: 1,
-          padding: 5,
-          height: `${70}%`,
-        }}
-      >
+      <Container flex={10} color="#fff" style={styles.inputMarkDown}>
         <Input
-        textArea
+          textArea
           underlineColorAndroid="transparent"
           placeholder="Type something"
           placeholderTextColor="grey"
@@ -77,7 +61,8 @@ export default function CreateArticle({ navigation }) {
           value={text}
           onChangeText={SetText}
         />
-      </View>
+      </Container>
+      <Modal isVisible={visible} setIsVisible={setVisible} />
     </Container>
   );
 }

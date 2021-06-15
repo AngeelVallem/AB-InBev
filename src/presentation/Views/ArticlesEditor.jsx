@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { LogBox } from "react-native";
 import ArticleEditableCard from "../Components/Editor/Index";
 import Spinner from "../../infrastructure/Components/Spinner";
 import { useIsFocused } from "@react-navigation/native";
@@ -15,7 +16,7 @@ import {
 export default function ArticlesEditor({ navigation }) {
   const [articles, setArticles] = useState(null);
   const [user, setUser] = useState(null);
-
+  LogBox.ignoreLogs(["Warning: ..."]);
   const isFocus = useIsFocused();
 
   //GET CURRENT USER
@@ -63,6 +64,10 @@ export default function ArticlesEditor({ navigation }) {
     );
   }
 
+
+
+
+
   return (
     <Container safeArea flex={1}>
       <Container style={styles.header}>
@@ -78,6 +83,7 @@ export default function ArticlesEditor({ navigation }) {
             navigation={navigation}
             onDelete={deleteArticle}
             key={i}
+            user={user}
             refresh={getUser}
           />
         ))}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/core";
 import {
-  LogBox,
   FlatList,
   KeyboardAvoidingView,
   StyleSheet,
@@ -19,6 +18,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 
 import Comment from "../Components/Article/Comment";
 
+
 const CustomInput = styled.TextInput`
 borderRadius : 5px
 margin: 12px
@@ -30,14 +30,12 @@ width : 50%
 `;
 
 export default function Comments({ route, navigation }) {
-  LogBox.ignoreLogs(["Warning: ..."]);
 
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState(null);
-  const isFocus = useIsFocused()
+  const isFocus = useIsFocused();
 
-  const {id, user} = route.params
-
+  const { id, user } = route.params;
 
   async function getComments() {
     const { comments } = await getById(
@@ -47,8 +45,8 @@ export default function Comments({ route, navigation }) {
   }
 
   useEffect(() => {
-    if(isFocus){
-	getComments();
+    if (isFocus) {
+      getComments();
     }
   }, [comments]);
 
